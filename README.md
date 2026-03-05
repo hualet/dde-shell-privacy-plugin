@@ -52,6 +52,22 @@ sudo make install
 DSG_LOG_LEVEL=debug dde-shell -p org.deepin.ds.dock 2>&1 | grep -i privacy
 ```
 
+## 打包
+
+### 本地构建 deb 包
+
+```bash
+sudo apt-get install build-essential debhelper cmake pkg-config
+sudo apt-get build-dep .
+dpkg-buildpackage -us -uc -b
+```
+
+### 使用 GitHub Actions
+
+项目配置了自动构建：
+- **Build**: 每次 push/PR 时编译检查
+- **Debian Package**: 打 tag 时自动构建 deb 包并发布
+
 ## 许可证
 
 GPL-3.0-or-later

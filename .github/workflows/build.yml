@@ -1,0 +1,47 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          cmake \
+          pkg-config \
+          qt6-base-dev \
+          qt6-base-dev-tools \
+          libdtk6core-dev \
+          libdtk6gui-dev
+    
+    - name: Install dde-shell-dev
+      run: |
+        # Add deepin repository for dde-shell-dev
+        echo "deb [trusted=yes] https://community-packages.deepin.com/beige beige main" | sudo tee /etc/apt/sources.list.d/deepin.list
+        sudo apt-get update
+        sudo apt-get install -y dde-shell-dev || echo "dde-shell-dev not available, will try to build without it"
+    
+    - name: Build
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release
+        make -j$(nproc)
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: dde-dock-privacy
+        path: |
+          build/*.so
+          package/

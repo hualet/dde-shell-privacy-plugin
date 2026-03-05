@@ -1,0 +1,22 @@
+Source: dde-dock-privacy
+Section: utils
+Priority: optional
+Maintainer: Deepin Packages Builder <packages@deepin.org>
+Build-Depends: debhelper (>= 11),
+               cmake,
+               pkg-config,
+               qt6-base-dev,
+               qt6-base-dev-tools,
+               libdtk6core-dev,
+               libdtk6gui-dev,
+               dde-shell-dev
+Standards-Version: 4.5.0
+
+Package: dde-dock-privacy
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         dde-shell
+Description: Privacy indicator plugin for DDE Dock
+ A dde-shell plugin that displays privacy indicators on the dock
+ when camera, microphone, or location services are in use.
