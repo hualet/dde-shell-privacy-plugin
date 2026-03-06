@@ -10,7 +10,7 @@ jobs:
   build-deb:
     runs-on: ubuntu-latest
     container:
-      image: docker.io/hualet/deepin:25
+      image: docker.io/hualet/deepin:25-builder
       options: --privileged
     
     steps:
