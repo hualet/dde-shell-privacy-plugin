@@ -9,16 +9,22 @@ on:
 jobs:
   clang-format:
     runs-on: ubuntu-latest
+    container:
+      image: docker.io/hualet/deepin:25
+      options: --privileged
     
     steps:
     - uses: actions/checkout@v4
     
-    - name: Install clang-format
+    - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y clang-format-17
+        apt-get update
+        apt-get install -y clang-format git
+    
+    - name: Check clang-format version
+      run: clang-format --version
     
     - name: Check formatting
       run: |
-        find . -name "*.cpp" -o -name "*.h" | xargs clang-format -style=gnu -i
+        find . -name "*.cpp" -o -name "*.h" | xargs clang-format -i
         git diff --exit-code || (echo "Please run clang-format to fix formatting issues" && exit 1)
